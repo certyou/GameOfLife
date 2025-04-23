@@ -1,19 +1,35 @@
 @startuml Game Of Life
 
-Class Cell {
-    --attributes--
-    - alive : boolean
-    --methods--
-    + toString : String
-    ..getter..
-    + isAlive : boolean
-    ..setter..
-    + kill : void
-    + spawn : void
+package "model" #DDDDDD {
+    Class Cell {
+        --attributes--
+        - alive : boolean
+        --methods--
+        + toString : String
+        ..getter..
+        + isAlive : boolean
+        ..setter..
+        + kill : void
+        + spawn : void
+    }
+
+    Class Grid {
+        --attributes--
+        - cells : Cell[1..*]
+        --methods--
+        + toString : String
+        ..getter..
+        ..setter..
+    }
+
+    Grid "1" --o "*" Cell
 }
 
-Class Grid {}
+package GUI {
+    Class Observer {}
 
-Class 
+    Class View {}
+}
+
 
 @end
