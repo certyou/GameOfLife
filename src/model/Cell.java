@@ -1,7 +1,7 @@
 package model;
 
 
-public class Cell {
+public class Cell implements Element {
     private boolean alive;
 
     public Cell() {

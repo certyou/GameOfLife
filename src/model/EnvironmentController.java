@@ -2,12 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
-public class GridController {
-    private Grid grid;
+public class EnvironmentController {
+    private Environment environment;
     private ArrayList<Subscriber> subscribers;
 
-    public GridController(int x, int y) {
-        grid = new Grid(x, y);
+    public EnvironmentController(int x, int y) {
+        environment = new Grid(x, y);
         subscribers = new ArrayList<>();
     }
 
@@ -21,12 +21,7 @@ public class GridController {
 
     public void notifySubscribers() {
         for (Subscriber subscriber : subscribers) {
-            subscriber.stateChanged(this);
+            subscriber.stateChanged(environment);
         }
-    }
-
-    public void updateGridFromCoordonnates(int x, int y) {
-        grid.spawnCell(x, y);
-        notifySubscribers();
     }
 }

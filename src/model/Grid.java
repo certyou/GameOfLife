@@ -1,15 +1,15 @@
 package model;
 
-public class Grid {
+public class Grid implements Environment {
     private int width;
     private int heigth;
-    private double spawnrate;
-    private Cell[][] cells;
+    //private double spawnrate;
+    private Element[][] cells;
 
     public Grid(int x, int y, double spawnrate) {
         this.width = x;
         this.heigth = y;
-        this.spawnrate = spawnrate;
+        //this.spawnrate = spawnrate;
         cells = new Cell[y][x];
         double seed;
         for (int i=0; i<heigth; i++) {
@@ -29,8 +29,8 @@ public class Grid {
         int NumberOfNeighboursAlive = 0;
         for (int dx=-1; dx<=1; dx++) {
             for (int dy=-1; dy<=1; dy++) {
-                // check if we are not ouf of range
-                if (x+dx>=0 && x+dx<cells[y].length && y+dy>=0 && y+dy<cells.length) {
+                // check if we are not ouf of range or on the cell itself
+                if (x+dx>=0 && x+dx<cells.length && y+dy>=0 && y+dy<cells[x].length && (dx!=0 || dy!=0)) {
                     if (cells[x+dx][y+dy].isAlive()) {
                         NumberOfNeighboursAlive++;
                     }
