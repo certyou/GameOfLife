@@ -1,35 +1,49 @@
 @startuml Game Of Life
 
 package "model" #DDDDDD {
-    Class Cell {
-        --attributes--
-        - alive : boolean
-        --methods--
-        + toString : String
-        ..getter..
-        + isAlive : boolean
-        ..setter..
-        + kill : void
-        + spawn : void
+    Interface Element {
+        + isAlive() : boolean
+        + toString() : String
     }
 
-    Class Grid {
-        --attributes--
-        - cells : Cell[1..*]
-        --methods--
-        + toString : String
-        ..getter..
-        ..setter..
+    Class Cell implements Element {
+        - alive() : boolean
     }
 
-    Grid "1" --o "*" Cell
+    Interface Environment {
+        + nextGeneration() : void
+        + toString() : String
+    }
+
+    Class Grid implements Environment {
+        - elements : Elements[1..*][1..*]
+        + getNumberOfNeighboursAlive() : int
+    }
+
+    Environment "1" o-l- "*" Element : compose
 }
 
 package GUI {
-    Class Observer {}
-
-    Class View {}
+    Class mainPanel{}
 }
+
+Interface Subscriber {
+    + stateChanged : void
+}
+
+Class EnvironmentController {
+    - Environment environment
+    - ArrayList<Subscriber> subscribers
+    + add(subscriber : Subscriber) : void
+    + remove(subscriber : Subscriber) : void
+    + notifySubscribers() : void
+}
+
+EnvironmentController <-l- model : notify
+EnvironmentController -u-> model : update
+EnvironmentController -d-> GUI : update
+EnvironmentController <-d- GUI : notify
+EnvironmentController "1" o-- "*" Subscriber : compose
 
 
 @end

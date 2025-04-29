@@ -1,6 +1,9 @@
-package model;
+package controller;
 
 import java.util.ArrayList;
+import model.Environment;
+import model.Grid;
+
 
 public class EnvironmentController {
     private Environment environment;
@@ -23,5 +26,9 @@ public class EnvironmentController {
         for (Subscriber subscriber : subscribers) {
             subscriber.stateChanged(environment);
         }
+    }
+
+    public Environment getEnvironment() {
+        return environment;
     }
 }
