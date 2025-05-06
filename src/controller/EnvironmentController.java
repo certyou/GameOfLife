@@ -39,6 +39,10 @@ public class EnvironmentController {
         play = false;
     }
 
+    public void playOrPause() {
+        play = !play;
+    }
+
     public void evolve(long interval) {
         while (true) {
             while (play) {
