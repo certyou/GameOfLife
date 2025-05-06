@@ -27,7 +27,7 @@ public class EnvironmentController {
 
     public void notifySubscribers() {
         for (Subscriber subscriber : subscribers) {
-            subscriber.stateChanged(environment);
+            subscriber.stateChanged(this);
         }
     }
 
@@ -58,10 +58,6 @@ public class EnvironmentController {
         }
     }
 
-    public Environment getEnvironment() {
-        return environment;
-    }
-
     public int getHeigth() {
         return environment.getHeigth();
     }
@@ -72,5 +68,13 @@ public class EnvironmentController {
 
     public Element getCell(int x, int y){
         return environment.getCell(x, y);
+    }
+
+    public int getGenerationNumber() {
+        return environment.getGenerationNumber();
+    }
+
+    public String toString() {
+        return environment.toString();
     }
 }

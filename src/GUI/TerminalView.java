@@ -2,7 +2,6 @@ package GUI;
 
 import controller.Subscriber;
 import controller.EnvironmentController;
-import model.Environment;
 
 
 public class TerminalView implements Subscriber {
@@ -13,7 +12,7 @@ public class TerminalView implements Subscriber {
         this.environment.add(this);
     }
 
-    public void stateChanged(Environment environment) {
+    public void stateChanged(EnvironmentController environment) {
         System.out.println("generation n°" + environment.getGenerationNumber() + ":");
         System.out.println(environment);
     }

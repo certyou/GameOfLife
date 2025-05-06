@@ -1,8 +1,6 @@
 package controller;
 
 
-import model.Environment;
-
 public interface Subscriber {
-    public void stateChanged(Environment context);
+    public void stateChanged(EnvironmentController context);
 }
