@@ -1,18 +1,12 @@
-import model.Grid;
+import GUI.GameOfLifeFrame;
+import GUI.TerminalView;
+import controller.EnvironmentController;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
-        Grid grid = new Grid(20,10);
-        //grid.spawnCell(3,3);
-        //grid.spawnCell(4,4);
-        //grid.spawnCell(4,5);
-        //grid.spawnCell(5,4);
-        //grid.spawnCell(5,3);
-        for (int n=0; n<15; n++) {
-            Thread.sleep(1000);
-            System.out.println(grid);
-            grid.nextGeneration();
-        }
+    public static void main(String[] args) {
+        EnvironmentController environmentController = new EnvironmentController(40,40);
+        GameOfLifeFrame frame = new GameOfLifeFrame(environmentController);
+        TerminalView terminalView = new TerminalView(environmentController);
+        environmentController.evolve(1000);
     }
 }

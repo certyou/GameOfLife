@@ -3,14 +3,16 @@ package model;
 public class Grid implements Environment {
     private int width;
     private int heigth;
+    private int generation;
     //private double spawnrate;
     private Element[][] cells;
 
-    public Grid(int x, int y, double spawnrate) {
-        this.width = x;
-        this.heigth = y;
+    public Grid(int width, int heigth, double spawnrate) {
+        this.width = width;
+        this.heigth = heigth;
+        generation = 0;
         //this.spawnrate = spawnrate;
-        cells = new Cell[y][x];
+        cells = new Cell[heigth][width];
         double seed;
         for (int i=0; i<heigth; i++) {
             for (int j=0; j<width; j++) {
@@ -21,8 +23,24 @@ public class Grid implements Environment {
         }
     }
 
+    public Element getCell(int x, int y) {
+        return cells[x][y];
+    }
+
     public Grid(int x, int y) {
         this(x,y,0.2);
+    }
+
+    public int getGenerationNumber() {
+        return generation;
+    }
+
+    public int getHeigth() {
+        return heigth;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public int getNumberOfNeighboursAlive(int x, int y) {
@@ -56,6 +74,7 @@ public class Grid implements Environment {
             }
         }
         cells = newGen;
+        generation++;
     }
 
     @Override

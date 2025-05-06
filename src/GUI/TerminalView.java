@@ -5,7 +5,7 @@ import controller.EnvironmentController;
 import model.Environment;
 
 
-public class TerminalView implements Subscriber{
+public class TerminalView implements Subscriber {
     private EnvironmentController environment;
 
     public TerminalView(EnvironmentController environment) {
@@ -14,6 +14,7 @@ public class TerminalView implements Subscriber{
     }
 
     public void stateChanged(Environment environment) {
-        //
+        System.out.println("generation n°" + environment.getGenerationNumber() + ":");
+        System.out.println(environment);
     }
 }

@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import model.Environment;
 import model.Grid;
+import model.Element;
 
 
 public class EnvironmentController {
@@ -28,7 +29,31 @@ public class EnvironmentController {
         }
     }
 
+    public void evolve(long interval) {
+        while (true) {
+            try {
+                environment.nextGeneration();
+                notifySubscribers();
+                Thread.sleep(interval);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public Environment getEnvironment() {
         return environment;
+    }
+
+    public int getHeigth() {
+        return environment.getHeigth();
+    }
+
+    public int getWidth() {
+        return environment.getWidth();
+    }
+
+    public Element getCell(int x, int y){
+        return environment.getCell(x, y);
     }
 }
