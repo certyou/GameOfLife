@@ -9,10 +9,12 @@ import model.Element;
 public class EnvironmentController {
     private Environment environment;
     private ArrayList<Subscriber> subscribers;
+    private boolean play;
 
     public EnvironmentController(int x, int y) {
         environment = new Grid(x, y);
         subscribers = new ArrayList<>();
+        play = true;
     }
 
     public void add(Subscriber subscriber) {
@@ -29,12 +31,27 @@ public class EnvironmentController {
         }
     }
 
+    public void play() {
+        play = true;
+    }
+
+    public void stop() {
+        play = false;
+    }
+
     public void evolve(long interval) {
         while (true) {
+            while (play) {
+                try {
+                    environment.nextGeneration();
+                    notifySubscribers();
+                    Thread.sleep(interval);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             try {
-                environment.nextGeneration();
-                notifySubscribers();
-                Thread.sleep(interval);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

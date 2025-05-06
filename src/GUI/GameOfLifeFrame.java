@@ -34,21 +34,18 @@ public class GameOfLifeFrame extends JFrame implements Subscriber {
         add(controlPanel, BorderLayout.SOUTH);
 
         // Add action listeners
-        startButton.addActionListener(new ActionListener() {
-            private Thread evolveThread;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                evolveThread = new Thread(() -> System.exit(0));
+        /* 
+         * Thread evolveThread = new Thread(() -> System.exit(0));
                 evolveThread.start();
-            }
+        */
+        startButton.addActionListener(
+            (ActionEvent e) -> {
+                environmentController.play();
         });
 
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0); // Stop the application
-            }
+        stopButton.addActionListener(
+            (ActionEvent e) -> {
+                environmentController.stop();
         });
 
         // Initialize grid
