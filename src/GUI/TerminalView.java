@@ -1,30 +1,23 @@
 package GUI;
 
-import controller.Subscriber;
-import controller.EnvironmentController;
+import model.GameOfLifeModel;
+import model.Listener;
+
 import java.util.Scanner;
 
 
-public class TerminalView implements Subscriber {
-    private EnvironmentController environment;
+public class TerminalView implements Listener {
     private Scanner scanner;
-    private Thread checkInput;
 
-    public TerminalView(EnvironmentController environment) {
-        this.environment = environment;
-        this.environment.add(this);
+    public TerminalView(GameOfLifeModel model) {
         scanner = new Scanner(System.in);
-        checkInput = new Thread(() -> {
-            while (true) {
-                scanner.nextLine();
-                environment.playOrPause();
-            }
-        });
-        checkInput.start();
     }
 
+    public Scanner getScanner() {
+        return scanner;
+    }
 
-    public void stateChanged(EnvironmentController environment) {
+    public void stateChanged(GameOfLifeModel environment) {
         System.out.println("generation n°" + environment.getGenerationNumber() + ":");
         System.out.println(environment);
     }

@@ -2,57 +2,49 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import controller.Subscriber;
-import controller.EnvironmentController;
 
-public class GameOfLifeFrame extends JFrame implements Subscriber {
+import model.GameOfLifeModel;
+import model.Listener;
+
+public class GameOfLifeFrame extends JFrame implements Listener {
     private JPanel gridPanel;
     private int cellSize = 10;
     private JLabel countLabel;
+    private JButton startAndPauseButton;
 
-    public GameOfLifeFrame(EnvironmentController environmentController) {
-        environmentController.add(this);
-
+    public GameOfLifeFrame(GameOfLifeModel model) {
         setTitle("Game of Life");
         setLayout(new BorderLayout());
 
         // count generation panel
         JPanel countJPanel = new JPanel();
-        countLabel = new JLabel("generation n°" + environmentController.getGenerationNumber());
+        countLabel = new JLabel("generation n°0");
         countJPanel.add(countLabel);
         add(countJPanel, BorderLayout.NORTH);
 
         // Create grid panel
         gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(environmentController.getHeigth(), environmentController.getWidth())); // Adjust grid size as needed
+        gridPanel.setLayout(new GridLayout(model.getHeigth(), model.getWidth())); // Adjust grid size as needed
         add(gridPanel, BorderLayout.CENTER);
 
-        // Add control buttons
+        // Add control button
         JPanel controlPanel = new JPanel();
-        JButton startButton = new JButton("Start");
-        JButton stopButton = new JButton("Stop");
-        controlPanel.add(startButton);
-        controlPanel.add(stopButton);
+        startAndPauseButton = new JButton("pause");
+        controlPanel.add(startAndPauseButton);
         add(controlPanel, BorderLayout.SOUTH);
 
-        // Add action listeners
-        startButton.addActionListener(
-            (ActionEvent e) -> {environmentController.play();}
-        );
-
-        stopButton.addActionListener(
-            (ActionEvent e) -> {environmentController.stop();}
-        );
-
         // Initialize grid
-        updateGrid(environmentController);
+        updateGrid(model);
 
         pack();
         setVisible(true);
     }
 
-    private void updateGrid(EnvironmentController environment) {
+    public JButton getStartAndPauseButton() {
+        return startAndPauseButton;
+    }
+
+    private void updateGrid(GameOfLifeModel environment) {
         gridPanel.removeAll();
         for (int i=0; i<environment.getHeigth(); i++) {
             for (int j=0; j<environment.getWidth(); j++) {
@@ -71,7 +63,7 @@ public class GameOfLifeFrame extends JFrame implements Subscriber {
         gridPanel.repaint();
     }
 
-    public void stateChanged(EnvironmentController environment) {
+    public void stateChanged(GameOfLifeModel environment) {
         if (countLabel != null) {
             countLabel.setText("generation n°" + environment.getGenerationNumber());
         }

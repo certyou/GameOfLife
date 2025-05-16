@@ -1,0 +1,104 @@
+@startuml Game Of Life
+
+package "model" #DDDDDD {
+    Interface Element {
+        + isAlive() : boolean
+        + toString() : String
+    }
+
+    Class Cell implements Element {
+        - alive : boolean
+        + isAlive() : boolean
+        + toString() : String
+    }
+
+    Interface Environment {
+        + nextGeneration() : void
+        + getGenerationNumber() : int
+        + getHeigth() : int
+        + getWidth() : int
+        + getCell(x : int, y : int) : Element
+    }
+
+    Class Grid implements Environment {
+        - width : int
+        - heigth : int
+        - generation : int
+        - cells : Element[][]
+        + getNumberOfNeighboursAlive(x : int, y : int) : int
+        + nextGeneration() : void
+        + toString() : String
+    }
+
+    Class GameOfLifeModel {
+        - environment : Environment
+        - Listeners : ArrayList<Listener>
+        - evolve : Thread
+        + add(listener : Listener) : void
+        + remove(listener : Listener) : void
+        + notifyListeners() : void
+        + start() : void
+        + stop() : void
+        + isRunning() : boolean
+        + getHeigth() : int
+        + getWidth() : int
+        + getCell(x : int, y : int) : Element
+        + getGenerationNumber() : int
+        + toString() : String
+    }
+
+    Interface Listener {
+        + stateChanged(context : GameOfLifeModel) : void
+    }
+}
+
+package "controller" #DDDDDD {
+    Class GameOfLifeController {
+        - model : GameOfLifeModel
+        - frame : GameOfLifeFrame
+        - terminal : TerminalView
+        + getWidth() : int
+        + getHeigth() : int
+        + getGenerationNumber() : int
+        + getGameOfLifeModel() : GameOfLifeModel
+        + start() : void
+    }
+}
+
+package "GUI" #DDDDDD {
+    Class GameOfLifeFrame implements model.Listener {
+        - gridPanel : JPanel
+        - cellSize : int
+        - countLabel : JLabel
+        - startAndPauseButton : JButton
+        -updateGrid(environment : GameOfLifeModel) : void
+        + getStartAndPauseButton() : JButton
+        + stateChanged(environment : GameOfLifeModel) : void
+    }
+
+    Class TerminalView implements model.Listener {
+        - scanner : Scanner
+        + getScanner() : Scanner
+        + stateChanged(environment : GameOfLifeModel) : void
+    }
+}
+
+package "test" #DDDDDD {
+    Class ModelTest {
+        + testCellBehavior() : void
+        + testEnvironmentBehavior() : void
+        + testGameOfLifeModel() : void
+    }
+}
+
+GameOfLifeModel "1" o-- "*" Listener : notifies
+GameOfLifeModel "1" o-- "1" Environment : uses
+Environment "1" o-- "*" Element : contains
+GameOfLifeController "1" o-- "1" GameOfLifeModel
+GameOfLifeController "1" o-- "1" GameOfLifeFrame : manages
+GameOfLifeController "1" o-- "1" TerminalView : manages
+ModelTest ..> GameOfLifeModel : tests
+ModelTest ..> Cell : tests
+ModelTest ..> Environment : tests
+
+@enduml

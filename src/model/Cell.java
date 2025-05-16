@@ -16,14 +16,6 @@ public class Cell implements Element {
         return alive;
     }
 
-    public void spawn() {
-        alive = true;
-    }
-
-    public void kill() {
-        alive = false;
-    }
-
     public String toString() {
         if (alive) {return "▉";}
         else {return "🬎";}
